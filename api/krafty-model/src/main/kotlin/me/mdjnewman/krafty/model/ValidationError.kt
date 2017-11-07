@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.model
+package me.mdjnewman.krafty.model
 
 data class ValidationError(
     val field: String,

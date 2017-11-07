@@ -1,7 +1,7 @@
 package me.mdjnewman.vetted.controller
 
-import me.mdjnewman.vetted.model.ApiValidationResponse
-import me.mdjnewman.vetted.model.ValidationError
+import me.mdjnewman.krafty.model.ApiValidationResponse
+import me.mdjnewman.krafty.model.ValidationError
 import org.axonframework.commandhandling.model.ConcurrencyException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

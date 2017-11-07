@@ -1,9 +1,9 @@
 package me.mdjnewman.vetted.integration
 
+import me.mdjnewman.krafty.test.performIgnorant
+import me.mdjnewman.krafty.test.withJsonBody
 import me.mdjnewman.vetted.command.CreateClientCommand
 import me.mdjnewman.vetted.domain.Address
-import krafty.test.performIgnorant
-import krafty.test.withJsonBody
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 import org.junit.runner.RunWith

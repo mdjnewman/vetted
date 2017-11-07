@@ -1,6 +1,6 @@
 package me.mdjnewman.vetted.domain
 
-import common.validate
+import me.mdjnewman.krafty.utils.validate
 import javax.validation.constraints.Pattern
 
 data class PhoneNumber(

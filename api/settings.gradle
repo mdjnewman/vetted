@@ -1,5 +1,10 @@
 rootProject.name = "vetted-api"
 
+
+include 'krafty-model'
+include 'krafty-test'
+include 'krafty-utils'
+
 include 'service'
 include 'model'
 

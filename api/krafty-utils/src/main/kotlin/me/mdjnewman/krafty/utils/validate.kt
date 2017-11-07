@@ -1,4 +1,4 @@
-package common
+package me.mdjnewman.krafty.utils
 
 import javax.validation.ConstraintViolationException
 import javax.validation.Validation

@@ -1,0 +1,6 @@
+dependencies {
+    compile("org.springframework:spring-web")
+    compile("org.springframework:spring-test")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("org.apache.tomcat.embed:tomcat-embed-core")
+}

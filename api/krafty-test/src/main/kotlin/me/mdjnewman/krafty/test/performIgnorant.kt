@@ -1,4 +1,4 @@
-package krafty.test
+package me.mdjnewman.krafty.test
 
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions

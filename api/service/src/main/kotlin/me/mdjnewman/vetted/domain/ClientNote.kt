@@ -1,6 +1,6 @@
 package me.mdjnewman.vetted.domain
 
-import common.validate
+import me.mdjnewman.krafty.utils.validate
 import java.time.ZonedDateTime
 import javax.validation.constraints.NotEmpty
 
