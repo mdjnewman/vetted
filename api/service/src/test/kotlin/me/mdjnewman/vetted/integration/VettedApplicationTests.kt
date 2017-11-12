@@ -12,7 +12,7 @@ import javax.inject.Inject
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-class DemoApplicationTests {
+class VettedApplicationTests {
 
     @Inject
     private lateinit var mockMvc: MockMvc
