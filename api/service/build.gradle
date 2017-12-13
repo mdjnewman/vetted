@@ -2,7 +2,7 @@ apply plugin: "kotlin-spring"
 apply plugin: "org.springframework.boot"
 
 ext {
-    axonVersion = '3.0.4'
+    axonVersion = '3.0.7'
 }
 
 dependencies {
