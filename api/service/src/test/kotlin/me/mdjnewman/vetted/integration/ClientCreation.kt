@@ -2,8 +2,9 @@ package me.mdjnewman.vetted.integration
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
-import me.mdjnewman.vetted.command.CreateClientCommand
-import me.mdjnewman.vetted.domain.Address
+import me.mdjnewman.vetted.VettedApplication
+import me.mdjnewman.vetted.model.command.CreateClientCommand
+import me.mdjnewman.vetted.model.Address
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +21,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest(classes = arrayOf(VettedApplication::class), webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 class ClientCreation {
 

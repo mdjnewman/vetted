@@ -1,6 +1,6 @@
 package me.mdjnewman.vetted.controller
 
-import me.mdjnewman.vetted.command.CreateClientCommand
+import me.mdjnewman.vetted.model.command.CreateClientCommand
 import me.mdjnewman.vetted.handler.DoTheThingCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,7 +20,8 @@ class ClientController(
 
     @RequestMapping(
         path = arrayOf("/_create"),
-        method = arrayOf(RequestMethod.POST))
+        method = arrayOf(RequestMethod.POST)
+    )
     fun create(@Valid @RequestBody createClientCommand: CreateClientCommand): CompletableFuture<String> {
         return commandGateway.send<String>(createClientCommand)
     }

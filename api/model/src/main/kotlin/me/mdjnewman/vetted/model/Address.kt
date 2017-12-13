@@ -1,8 +1,7 @@
-package me.mdjnewman.vetted.domain
+package me.mdjnewman.vetted.model
 
 import javax.validation.constraints.NotEmpty
 
-// TODO - move somewhere else
 data class Address(
 
     @get: NotEmpty

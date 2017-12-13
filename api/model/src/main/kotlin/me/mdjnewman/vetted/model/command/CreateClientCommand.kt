@@ -1,6 +1,6 @@
-package me.mdjnewman.vetted.command
+package me.mdjnewman.vetted.model.command
 
-import me.mdjnewman.vetted.domain.Address
+import me.mdjnewman.vetted.model.Address
 import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.NotEmpty
