@@ -40,7 +40,8 @@ class ClientControllerTest {
         val newClientId = UUID.randomUUID()
         val createClientCommand = CreateClientCommand(newClientId, "asdf", Address("asdf", null, "asdf", "asdf", "adf"))
 
-        `when`(commandGateway.send<String>(eq(createClientCommand))).thenReturn(CompletableFuture.completedFuture(newClientId.toString()))
+        `when`(commandGateway.send<String>(eq(createClientCommand)))
+            .thenReturn(CompletableFuture.completedFuture(newClientId.toString()))
 
         mockMvc
             .performIgnorant(post("/api/v1/clients/_create").withJsonBody(createClientCommand))
@@ -51,10 +52,6 @@ class ClientControllerTest {
 
     @Test
     fun shouldFailWithValidationErrors() {
-
-        val completedFuture = CompletableFuture.completedFuture("asd")
-
-        `when`(commandGateway.send<String>(isA(CreateClientCommand::class.java))).thenReturn(completedFuture)
 
         val createClientCommand = CreateClientCommand(UUID.randomUUID(), "", Address("", null, "", "", ""))
 
