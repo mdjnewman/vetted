@@ -1,6 +1,10 @@
 apply plugin: "kotlin-spring"
 apply plugin: "org.springframework.boot"
 
+ext {
+    axonVersion = '3.0.4'
+}
+
 dependencies {
     compile(project(":vetted-api-model"))
     compile(project(":krafty-utils"))
