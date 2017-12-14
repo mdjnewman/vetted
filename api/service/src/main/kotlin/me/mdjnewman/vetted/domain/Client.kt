@@ -52,5 +52,4 @@ class Client {
         this.name = event.name
         this.address = event.address
     }
-
 }

@@ -41,6 +41,8 @@ subprojects {
         compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     }
 
+    apply from: '../gradle/ktlint.gradle'
+
     group = 'me.mdjnewman.vetted'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = 1.8

@@ -55,8 +55,5 @@ class ClientCreation {
             )
             .andExpect(status().is5xxServerError)
             .andDo(MockMvcResultHandlers.print())
-
     }
-
 }
-

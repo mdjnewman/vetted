@@ -35,5 +35,4 @@ class AxonConfig {
     fun configure(@Qualifier("localSegment") simpleCommandBus: SimpleCommandBus) {
         simpleCommandBus.registerDispatchInterceptor(BeanValidationInterceptor<CommandMessage<*>>())
     }
-
 }

@@ -13,5 +13,4 @@ data class PhoneNumber(
     init {
         validate()
     }
-
 }

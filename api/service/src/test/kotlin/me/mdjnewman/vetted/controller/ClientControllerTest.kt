@@ -61,6 +61,4 @@ class ClientControllerTest {
             .andExpect(jsonPath("httpStatus").value(HttpStatus.BAD_REQUEST.value().toString()))
             .andExpect(jsonPath("details").isArray)
     }
-
 }
-

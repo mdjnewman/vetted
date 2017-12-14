@@ -20,5 +20,4 @@ class VettedApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

@@ -35,5 +35,4 @@ class ClientTests {
             .expectSuccessfulHandlerExecution()
             .expectEvents(ClientCreatedEvent(clientId, command.name, command.address))
     }
-
 }

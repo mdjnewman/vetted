@@ -22,5 +22,4 @@ class ClientController(
     fun create(@Valid @RequestBody createClientCommand: CreateClientCommand): CompletableFuture<String> {
         return commandGateway.send<String>(createClientCommand)
     }
-
 }
