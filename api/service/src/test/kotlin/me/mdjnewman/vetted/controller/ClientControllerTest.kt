@@ -2,13 +2,12 @@ package me.mdjnewman.vetted.controller
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
-import me.mdjnewman.vetted.model.command.CreateClientCommand
 import me.mdjnewman.vetted.model.Address
+import me.mdjnewman.vetted.model.command.CreateClientCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.eq
-import org.mockito.ArgumentMatchers.isA
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean

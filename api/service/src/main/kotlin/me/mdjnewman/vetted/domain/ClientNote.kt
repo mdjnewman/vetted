@@ -5,8 +5,8 @@ import java.time.ZonedDateTime
 import javax.validation.constraints.NotEmpty
 
 data class ClientNote(
-        @get: NotEmpty
-        val noteText: String
+    @get: NotEmpty
+    val noteText: String
 ) {
     val dateCreated = ZonedDateTime.now()
 

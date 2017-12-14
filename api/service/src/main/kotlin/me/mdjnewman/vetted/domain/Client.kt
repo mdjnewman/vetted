@@ -1,8 +1,8 @@
 package me.mdjnewman.vetted.domain
 
-import me.mdjnewman.vetted.model.command.CreateClientCommand
 import me.mdjnewman.vetted.event.ClientCreatedEvent
 import me.mdjnewman.vetted.model.Address
+import me.mdjnewman.vetted.model.command.CreateClientCommand
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.model.AggregateIdentifier
 import org.axonframework.commandhandling.model.AggregateLifecycle.apply
@@ -36,9 +36,9 @@ class Client {
     @CommandHandler
     constructor(command: CreateClientCommand) {
         apply(ClientCreatedEvent(
-                clientId = command.clientId,
-                name = command.name,
-                address = command.address
+            clientId = command.clientId,
+            name = command.name,
+            address = command.address
         ))
     }
 
@@ -53,8 +53,4 @@ class Client {
         this.address = event.address
     }
 
-    fun doTheThing() {
-        println("\n####\n$id\n###\n")
-    }
 }
-

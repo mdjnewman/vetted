@@ -3,8 +3,8 @@ package me.mdjnewman.vetted.integration
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
 import me.mdjnewman.vetted.VettedApplication
-import me.mdjnewman.vetted.model.command.CreateClientCommand
 import me.mdjnewman.vetted.model.Address
+import me.mdjnewman.vetted.model.command.CreateClientCommand
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 import org.junit.runner.RunWith
