@@ -1,6 +1,7 @@
 package me.mdjnewman.vetted.domain
 
 import me.mdjnewman.vetted.event.ClientCreatedEvent
+import me.mdjnewman.vetted.event.ClientNoteAddedEvent
 import me.mdjnewman.vetted.model.Address
 import me.mdjnewman.vetted.model.command.CreateClientCommand
 import org.axonframework.commandhandling.CommandHandler
@@ -29,9 +30,9 @@ class Client {
 
     private var isBadDebtor: Boolean = false
 
-    private val contactNumbers: Set<PhoneNumber> = mutableSetOf()
+    private val contactNumbers: MutableSet<PhoneNumber> = mutableSetOf()
 
-    private var notes: Set<ClientNote> = mutableSetOf()
+    private val notes: MutableSet<ClientNote> = mutableSetOf()
 
     @CommandHandler
     constructor(command: CreateClientCommand) {
@@ -46,10 +47,23 @@ class Client {
     @Deprecated(message = "Framework use only")
     constructor()
 
+    fun addNote(noteText: String) {
+        val clientNote = ClientNote(noteText)
+        if (!notes.contains(clientNote)) {
+            apply(ClientNoteAddedEvent(id, clientNote))
+        }
+    }
+
     @EventSourcingHandler
     fun on(event: ClientCreatedEvent) {
         this.id = event.clientId
         this.name = event.name
         this.address = event.address
     }
+
+    @EventSourcingHandler
+    fun on(event: ClientNoteAddedEvent) {
+        notes.add(event.clientNote)
+    }
+
 }

@@ -4,6 +4,7 @@ import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
 import me.mdjnewman.vetted.VettedApplication
 import me.mdjnewman.vetted.model.Address
+import me.mdjnewman.vetted.model.command.AddClientNoteCommand
 import me.mdjnewman.vetted.model.command.CreateClientCommand
 import org.hamcrest.CoreMatchers
 import org.junit.Test
@@ -54,6 +55,40 @@ class ClientCreation {
                 post("/api/v1/clients/_create").withJsonBody(createClientCommand)
             )
             .andExpect(status().is5xxServerError)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
+    @Test
+    fun shouldBeMovedSomewhereElse() {
+        val createClientCommand = CreateClientCommand(
+            name = "Fred Smith",
+            clientId = UUID.randomUUID(),
+            address = Address(
+                addressLineOne = "1 One Lane",
+                town = "Townsville",
+                state = "Nope",
+                postcode = "4006"
+            )
+        )
+
+        mockMvc
+            .performIgnorant(
+                post("/api/v1/clients/_create").withJsonBody(createClientCommand)
+            )
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect(content().string(CoreMatchers.containsString("-")))
+
+        val addClientNoteCommand = AddClientNoteCommand(
+            clientId = createClientCommand.clientId,
+            noteText = "Lovely note about a client"
+        )
+
+        mockMvc
+            .performIgnorant(
+                post("/api/v1/clients/_add-note").withJsonBody(addClientNoteCommand)
+            )
+            .andExpect(status().isOk)
             .andDo(MockMvcResultHandlers.print())
     }
 }

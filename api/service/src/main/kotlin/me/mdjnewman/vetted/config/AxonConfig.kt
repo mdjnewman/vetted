@@ -23,7 +23,7 @@ class AxonConfig {
 
     @Bean
     fun bankAccountCommandHandler(): ClientCommandHandler {
-        return ClientCommandHandler(axonConfiguration.repository(Client::class.java))
+        return ClientCommandHandler(axonConfiguration.repository(Client::class.java), eventBus)
     }
 
     //    @Bean

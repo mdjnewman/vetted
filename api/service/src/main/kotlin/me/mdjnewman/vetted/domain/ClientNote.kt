@@ -6,10 +6,9 @@ import javax.validation.constraints.NotEmpty
 
 data class ClientNote(
     @get: NotEmpty
-    val noteText: String
+    val noteText: String,
+    val dateCreated: ZonedDateTime = ZonedDateTime.now()
 ) {
-    val dateCreated = ZonedDateTime.now()
-
     init {
         validate()
     }

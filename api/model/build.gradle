@@ -1,3 +1,4 @@
 dependencies {
     compile(project(":krafty-model"))
+    compile("org.axonframework:axon-core:$axonVersion")
 }
