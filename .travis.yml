@@ -1,0 +1,8 @@
+language: java
+
+install:
+  - pushd frontend/ && yarn install && popd
+
+script:
+  - pushd api/        && ./gradlew clean build  && popd
+  - pushd frontend/   && npm run build          && popd
