@@ -1,9 +1,6 @@
 package me.mdjnewman.krafty.model
 
-import org.springframework.http.HttpStatus
-
-data class ApiValidationResponse(
-    override val details: List<ValidationError>
-) : ApiErrorResponse<ValidationError> {
-    override val httpStatus: Int = HttpStatus.BAD_REQUEST.value()
-}
+data class ApiValidationResponse<out E>(
+    override val details: List<ApiValidationErrorDetails>,
+    override val errorCode: E
+) : ApiErrorResponse<ApiValidationErrorDetails, E>

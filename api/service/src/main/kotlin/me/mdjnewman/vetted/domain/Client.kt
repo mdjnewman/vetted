@@ -3,6 +3,7 @@ package me.mdjnewman.vetted.domain
 import me.mdjnewman.vetted.event.ClientCreatedEvent
 import me.mdjnewman.vetted.event.ClientNoteAddedEvent
 import me.mdjnewman.vetted.model.Address
+import me.mdjnewman.vetted.model.command.AddClientNoteCommand
 import me.mdjnewman.vetted.model.command.CreateClientCommand
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.model.AggregateIdentifier
@@ -47,8 +48,9 @@ class Client {
     @Deprecated(message = "Framework use only")
     constructor()
 
-    fun addNote(noteText: String) {
-        val clientNote = ClientNote(noteText)
+    @CommandHandler
+    fun addNote(command: AddClientNoteCommand) {
+        val clientNote = ClientNote(command.noteText)
         if (!notes.contains(clientNote)) {
             apply(ClientNoteAddedEvent(id, clientNote))
         }
@@ -65,5 +67,4 @@ class Client {
     fun on(event: ClientNoteAddedEvent) {
         notes.add(event.clientNote)
     }
-
 }

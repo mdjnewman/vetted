@@ -1,6 +1,6 @@
 package me.mdjnewman.krafty.model
 
-data class ValidationError(
+data class ApiValidationErrorDetails(
     val field: String,
     val message: String
 )

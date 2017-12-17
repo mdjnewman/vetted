@@ -3,6 +3,7 @@ package me.mdjnewman.vetted.controller
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
 import me.mdjnewman.vetted.model.Address
+import me.mdjnewman.vetted.model.ErrorCode
 import me.mdjnewman.vetted.model.command.CreateClientCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.Test
@@ -11,7 +12,6 @@ import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -58,7 +58,7 @@ class ClientControllerTest {
             .performIgnorant(post("/api/v1/clients/_create").withJsonBody(createClientCommand))
             .andExpect(status().isBadRequest)
             .andDo(print())
-            .andExpect(jsonPath("httpStatus").value(HttpStatus.BAD_REQUEST.value().toString()))
+            .andExpect(jsonPath("errorCode").value(ErrorCode.VALIDATION_ERROR.toString()))
             .andExpect(jsonPath("details").isArray)
     }
 }

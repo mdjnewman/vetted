@@ -1,6 +1,6 @@
 package me.mdjnewman.krafty.model
 
-interface ApiErrorResponse<out T> {
-    val httpStatus: Int
-    val details: List<T>
+interface ApiErrorResponse<out D, out E> {
+    val errorCode: E
+    val details: List<D>
 }
