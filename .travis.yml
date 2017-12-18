@@ -1,8 +1,12 @@
 language: java
 
 install:
-  - pushd frontend/ && yarn install && popd
+  - export PATH="$PATH:$(yarn global bin)" && echo "$PATH"
+  - yarn global add elm
+  - pushd frontend/     && yarn install               && popd
+  - pushd frontend/     && elm package install --yes  && popd
 
 script:
-  - pushd api/        && ./gradlew clean build  && popd
-  - pushd frontend/   && npm run build          && popd
+  - pushd frontend/     && elm-make src/**/*.elm      && popd # TODO
+  - pushd frontend/     && yarn run build             && popd
+  - pushd api/          && ./gradlew clean build      && popd
