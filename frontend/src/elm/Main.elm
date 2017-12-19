@@ -8,6 +8,9 @@ import Uuid
 import Random.Pcg
 import Maybe
 import Bootstrap.Grid as Grid
+import Bootstrap.Form as Form
+import Bootstrap.Form.Input as Input
+import Bootstrap.Button as Button
 
 main : Program Never Model Msg
 main =
@@ -93,29 +96,32 @@ update msg model =
 view : Model -> Html Msg
 view model =
   Grid.container []
-    [ Html.form
+    [ Html.h2 [] [ Html.text "Create client" ]
+    , Form.form
         [ onSubmit SubmitPost ]
-        [ input [ type_ "text", placeholder "Name", name "name", onInput Name, value model.name ] []
-        , input [ type_ "text", placeholder "Address line one", name "addressLineOne", onInput AddressLineOne ] []
-        , input [ type_ "text", placeholder "Address line two", name "addressLineTwo", onInput AddressLineTwo ] []
-        , input [ type_ "text", placeholder "Town", name "town", onInput Town ] []
-        , input [ type_ "text", placeholder "State", name "state", onInput State ] []
-        , input [ type_ "text", placeholder "Postcode", name "postcode", onInput Postcode ] []
---        , viewValidation model
-        , button [] []
+        [ Form.group []
+            [ Form.label [for "addressLineOne"] [ text "Address line one" ]
+            , Input.text [ Input.id "addressLineOne", Input.onInput AddressLineOne ]
+            ]
+        , Form.group []
+            [ Form.label [for "addressLineTwo"] [ text "Address line two" ]
+            , Input.text [ Input.id "addressLineTwo", Input.onInput AddressLineTwo ]
+            ]
+        , Form.group []
+            [ Form.label [for "town"] [ text "Town" ]
+            , Input.text [ Input.id "town", Input.onInput Town ]
+            ]
+        , Form.group []
+            [ Form.label [for "state"] [ text "State" ]
+            , Input.text [ Input.id "state", Input.onInput State ]
+            ]
+        , Form.group []
+            [ Form.label [for "postcode"] [ text "Postcode" ]
+            , Input.text [ Input.id "postcode", Input.onInput Postcode ]
+            ]
+        , Button.button [ Button.primary] [ text "Submit" ]
         ]
     ]
-
---viewValidation : Model -> Html msg
---viewValidation model =
---  let
---    (color, message) =
---      if model.password == model.passwordAgain then
---        ("green", "OK")
---      else
---        ("red", "Passwords do not match!")
---  in
---    div [ style [("color", color)] ] [ text message ]
 
 
 createClient : Model -> Cmd Msg
