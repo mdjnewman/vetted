@@ -49,7 +49,12 @@ var commonConfig = {
             template: 'src/static/index.html',
             inject: 'body',
             filename: 'index.html'
-        })
+        }),
+        new webpack.ProvidePlugin({
+           $: "jquery",
+           jQuery: "jquery",
+           Tether: 'tether'
+       })
     ]
 }
 
@@ -79,7 +84,7 @@ if (isDev === true) {
                     }
                 }]
             },{
-                test: /\.sc?ss$/,
+                test: /\.(css|scss)$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
             }]
         }
@@ -96,7 +101,7 @@ if (isProd === true) {
                 exclude: [/elm-stuff/, /node_modules/],
                 use: 'elm-webpack-loader'
             }, {
-                test: /\.sc?ss$/,
+                test: /\.(css|scss)$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', 'postcss-loader', 'sass-loader']

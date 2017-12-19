@@ -7,6 +7,7 @@ import Json.Encode as Encode
 import Uuid
 import Random.Pcg
 import Maybe
+import Bootstrap.Grid as Grid
 
 main : Program Never Model Msg
 main =
@@ -91,7 +92,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div []
+  Grid.container []
     [ Html.form
         [ onSubmit SubmitPost ]
         [ input [ type_ "text", placeholder "Name", name "name", onInput Name, value model.name ] []

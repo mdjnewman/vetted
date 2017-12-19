@@ -7,6 +7,6 @@ install:
   - pushd frontend/     && elm package install --yes  && popd
 
 script:
-  - pushd frontend/     && elm-make src/**/*.elm      && popd # TODO
+  - pushd frontend/     && elm-make src/**/*.elm      && popd # TODO - shouldn't be required
   - pushd frontend/     && yarn run build             && popd
   - pushd api/          && ./gradlew clean build      && popd
