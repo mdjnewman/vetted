@@ -17,13 +17,11 @@ init location =
         ( initialModel currentRoute, Material.init MaterialMsg )
 
 
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Material.subscriptions MaterialMsg model
 
-
-
--- MAIN
 
 
 main : Program Never Model Msg
