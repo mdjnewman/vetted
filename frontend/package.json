@@ -11,6 +11,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.27.3",
     "elm": "^0.18.0",
+    "elm-github-install": "^1.6.1",
     "elm-webpack-loader": "^4.3.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
@@ -29,6 +30,6 @@
     "start": "webpack-dev-server --hot --inline",
     "prebuild": "rimraf dist",
     "build": "webpack --verbose",
-    "reinstall": "npm i rimraf && rimraf node_modules && npm uninstall -g elm && npm i -g elm && npm i && elm package install"
+    "reinstall": "npm i rimraf && rimraf node_modules elm-stuff && yarn && elm-install"
   }
 }

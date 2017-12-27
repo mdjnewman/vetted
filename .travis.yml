@@ -1,12 +1,33 @@
 language: java
 
+cache:
+  yarn: true
+  directories:
+    - sysconfcpus
+
+before_install:
+  - | # https://github.com/elm-lang/elm-compiler/issues/1473
+    if [ ! -d sysconfcpus/bin ];
+    then
+      git clone https://github.com/obmarg/libsysconfcpus.git;
+      cd libsysconfcpus;
+      ./configure --prefix=$TRAVIS_BUILD_DIR/sysconfcpus;
+      make && make install;
+      cd ..;
+    fi
+
 install:
-  - export PATH="$PATH:$(yarn global bin)" && echo "$PATH"
-  - yarn global add elm
-  - pushd frontend/     && yarn install               && popd
-  - pushd frontend/     && elm package install --yes  && popd
+  - pushd frontend
+  - yarn install
+  - yarn elm-install
+  - popd
 
 script:
-  - pushd frontend/     && elm-make src/**/*.elm      && popd # TODO - shouldn't be required
-  - pushd frontend/     && yarn run build             && popd
-  - pushd api/          && ./gradlew clean build      && popd
+  - pushd frontend/
+  - ../sysconfcpus/bin/sysconfcpus -n 2 yarn elm-make src/**/*.elm # TODO - shouldn't be required
+  - ../sysconfcpus/bin/sysconfcpus -n 2 yarn run build
+  - popd
+
+  - pushd api/
+  - TERM=dumb ./gradlew clean build
+  - popd
