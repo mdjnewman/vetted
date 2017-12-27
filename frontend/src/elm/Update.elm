@@ -4,6 +4,7 @@ import Models exposing (Model)
 import Clients.New
 import Msgs exposing (..)
 import Routing exposing (parseLocation)
+import Material
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -14,3 +15,6 @@ update msg model =
 
         OnLocationChange r ->
           ({ model | route = parseLocation r }, Cmd.none)
+
+        MaterialMsg msg_ ->
+          Material.update MaterialMsg msg_ model

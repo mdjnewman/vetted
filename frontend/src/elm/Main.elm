@@ -6,6 +6,7 @@ import Routing
 import Update exposing (update)
 import View exposing (view)
 import Msgs exposing (..)
+import Material
 
 init : Location -> ( Model, Cmd Msg )
 init location =
@@ -13,12 +14,12 @@ init location =
         currentRoute =
             Routing.parseLocation location
     in
-        ( initialModel currentRoute, Cmd.none )
+        ( initialModel currentRoute, Material.init MaterialMsg )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Material.subscriptions MaterialMsg model
 
 
 
