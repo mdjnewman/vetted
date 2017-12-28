@@ -6,8 +6,12 @@ import Models exposing (Model)
 import Models exposing (Model)
 import Clients.New exposing (view)
 import Msgs exposing (..)
-import Material.Button as Button
 import Material.Toolbar as Toolbar
+import Material.Drawer.Temporary as Drawer
+import Material.Theme as Theme
+import Material.List as Lists
+import Material.Options as Options exposing (styled, cs, css, when)
+import Html.Attributes
 
 
 view : Model -> Html Msg
@@ -22,7 +26,19 @@ view model =
               []
               [ Toolbar.row
                   []
-                  [ Toolbar.title
+                  [ Toolbar.icon_
+                      [ Toolbar.menu
+                      , Options.onClick OpenDrawer
+                      , css "cursor" "pointer"
+                      ]
+                      [ styled Html.i
+                          [ cs "material-icons"
+                          , css "pointer-events" "none"
+                          ]
+                          [ text "menu"
+                          ]
+                      ]
+                  , Toolbar.title
                       []
                       [ text "Vetted"
                       ]
@@ -34,6 +50,18 @@ view model =
           , style [("padding-top", "10px")]
           ]
           [ page model
+          ]
+
+        , Drawer.render MaterialMsg [0] model.mdl []
+          [ Drawer.content []
+            [ Lists.listItem
+              [ Options.attribute (Html.Attributes.href "#clients")
+              , Options.onClick CloseDrawer
+              ]
+              [ Lists.startDetailIcon "clients" []
+              , text "Clients"
+              ]
+            ]
           ]
       ]
 

@@ -13,6 +13,7 @@ type alias Model =
     { route : Route
     , client : Client
     , mdl : Material.Model
+    , drawerOpen : Bool
     }
 
 initialModel : Route -> Model
@@ -20,4 +21,5 @@ initialModel route =
     { route = route
     , client = newClient
     , mdl = Material.defaultModel
+    , drawerOpen = False
     }

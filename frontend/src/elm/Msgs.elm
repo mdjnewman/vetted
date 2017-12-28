@@ -8,4 +8,6 @@ import Material
 type Msg
     = NewClientPageMessage Clients.New.Msg
     | MaterialMsg (Material.Msg Msg)
+    | OpenDrawer
+    | CloseDrawer
     | OnLocationChange Location
