@@ -1,34 +1,47 @@
 package me.mdjnewman.vetted.controller
 
+import me.mdjnewman.vetted.Address
 import me.mdjnewman.vetted.command.AddClientNoteCommand
 import me.mdjnewman.vetted.command.CreateClientCommand
+import me.mdjnewman.vetted.controller.ClientResource.Companion.PATH
+import me.mdjnewman.vetted.model.AddClientNoteCommandDTO
+import me.mdjnewman.vetted.model.CreateClientCommandDTO
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import java.util.concurrent.CompletableFuture
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/v1/clients")
+@RequestMapping(PATH)
 class ClientController(
     private val commandGateway: CommandGateway
-) {
-    // TODO - shouldn't be returning anything here
-    @RequestMapping(
-        path = arrayOf("/_create"),
-        method = arrayOf(RequestMethod.POST)
-    )
-    fun create(@Valid @RequestBody createClientCommand: CreateClientCommand): CompletableFuture<String> {
-        return commandGateway.send<String>(createClientCommand)
+) : ClientResource {
+    override fun create(@Valid @RequestBody dto: CreateClientCommandDTO): CompletableFuture<Void> {
+        return commandGateway.send<Void>(
+            CreateClientCommand(
+                clientId = dto.clientId,
+                address = dto.address.let {
+                    Address(
+                        addressLineOne = it.addressLineOne,
+                        addressLineTwo = it.addressLineTwo,
+                        town = it.town,
+                        state = it.state,
+                        postcode = it.postcode
+                    )
+                },
+                name = dto.name
+            )
+        )
     }
 
-    @RequestMapping(
-        path = arrayOf("/_add-note"),
-        method = arrayOf(RequestMethod.POST)
-    )
-    fun addNote(@Valid @RequestBody addClientNoteCommand: AddClientNoteCommand): CompletableFuture<Void> {
-        return commandGateway.send<Void>(addClientNoteCommand)
+    override fun addNote(@Valid @RequestBody dto: AddClientNoteCommandDTO): CompletableFuture<Void> {
+        return commandGateway.send<Void>(
+            AddClientNoteCommand(
+                clientId = dto.clientId,
+                noteText = dto.noteText
+            )
+        )
     }
 }

@@ -2,10 +2,10 @@ package me.mdjnewman.vetted.integration
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
-import me.mdjnewman.vetted.Address
 import me.mdjnewman.vetted.VettedApplication
 import me.mdjnewman.vetted.command.AddClientNoteCommand
-import me.mdjnewman.vetted.command.CreateClientCommand
+import me.mdjnewman.vetted.model.AddressDTO
+import me.mdjnewman.vetted.model.CreateClientCommandDTO
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,10 +31,10 @@ class ClientCreation {
 
     @Test
     fun shouldRejectDuplicateCreation() {
-        val createClientCommand = CreateClientCommand(
+        val createClientCommand = CreateClientCommandDTO(
             name = "Fred Smith",
             clientId = UUID.randomUUID(),
-            address = Address(
+            address = AddressDTO(
                 addressLineOne = "1 One Lane",
                 town = "Townsville",
                 state = "Nope",
@@ -60,10 +60,10 @@ class ClientCreation {
 
     @Test
     fun shouldBeMovedSomewhereElse() {
-        val createClientCommand = CreateClientCommand(
+        val createClientCommand = CreateClientCommandDTO(
             name = "Fred Smith",
             clientId = UUID.randomUUID(),
-            address = Address(
+            address = AddressDTO(
                 addressLineOne = "1 One Lane",
                 town = "Townsville",
                 state = "Nope",

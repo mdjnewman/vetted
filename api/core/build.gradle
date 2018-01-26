@@ -1,6 +1,7 @@
 dependencies {
     compile(project(":vetted-core-api"))
     compile("org.springframework.boot:spring-boot-starter-validation")
+    compile("org.axonframework:axon-spring:$axonVersion")
     testCompile("junit:junit")
     testCompile("org.axonframework:axon-test:$axonVersion")
     testCompile("org.hamcrest:hamcrest-library")
