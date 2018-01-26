@@ -1,0 +1,3 @@
+dependencies {
+    compile("com.healthmarketscience.jackcess:jackcess:2.1.9")
+}

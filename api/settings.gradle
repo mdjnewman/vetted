@@ -1,12 +1,20 @@
-rootProject.name = "vetted-api"
-
+rootProject.name = "vetted"
 
 include 'krafty-model'
 include 'krafty-test'
 include 'krafty-utils'
 
-include 'service'
-include 'model'
+include 'core-api'
+project(':core-api').name = "$rootProject.name-core-api"
 
-project(':service').name = "$rootProject.name-service"
-project(':model').name = "$rootProject.name-model"
+include 'core'
+project(':core').name = "$rootProject.name-core"
+
+include 'service'
+project(':service').name = "$rootProject.name-web"
+
+include 'model'
+project(':model').name = "$rootProject.name-web-model"
+
+include 'importer'
+project(':importer').name = "$rootProject.name-importer"

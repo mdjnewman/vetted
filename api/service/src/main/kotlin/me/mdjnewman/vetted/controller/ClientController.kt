@@ -1,7 +1,7 @@
 package me.mdjnewman.vetted.controller
 
-import me.mdjnewman.vetted.model.command.AddClientNoteCommand
-import me.mdjnewman.vetted.model.command.CreateClientCommand
+import me.mdjnewman.vetted.command.AddClientNoteCommand
+import me.mdjnewman.vetted.command.CreateClientCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

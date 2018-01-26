@@ -1,0 +1,6 @@
+dependencies {
+    compile("javax.validation:validation-api")
+    compile(project(":krafty-utils"))
+    compile("org.axonframework:axon-core:$axonVersion")
+    compile("org.axonframework:axon-spring:$axonVersion")
+}

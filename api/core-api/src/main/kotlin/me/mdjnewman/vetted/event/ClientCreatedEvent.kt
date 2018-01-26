@@ -1,6 +1,6 @@
 package me.mdjnewman.vetted.event
 
-import me.mdjnewman.vetted.model.Address
+import me.mdjnewman.vetted.Address
 import java.util.UUID
 
 data class ClientCreatedEvent(

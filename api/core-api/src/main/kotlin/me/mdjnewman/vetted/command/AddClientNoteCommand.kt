@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.model.command
+package me.mdjnewman.vetted.command
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier
 import java.util.UUID

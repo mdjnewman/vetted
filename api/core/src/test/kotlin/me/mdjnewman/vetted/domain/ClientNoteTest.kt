@@ -1,5 +1,6 @@
 package me.mdjnewman.vetted.domain
 
+import me.mdjnewman.vetted.ClientNote
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.hasSize
 import org.junit.Assert.assertThat

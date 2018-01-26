@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.model
+package me.mdjnewman.vetted
 
 import javax.validation.constraints.NotEmpty
 

@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.domain
+package me.mdjnewman.vetted
 
 import me.mdjnewman.krafty.utils.validate
 import java.time.ZonedDateTime

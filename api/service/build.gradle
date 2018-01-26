@@ -2,7 +2,9 @@ apply plugin: "kotlin-spring"
 apply plugin: "org.springframework.boot"
 
 dependencies {
-    compile(project(":vetted-api-model"))
+    compile(project(":vetted-web-model"))
+    compile(project(":vetted-core"))
+    compile(project(":vetted-core-api"))
     compile(project(":krafty-utils"))
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("javax.inject:javax.inject:1")

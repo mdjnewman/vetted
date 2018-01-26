@@ -22,7 +22,7 @@ class AxonConfig {
     private lateinit var eventBus: EventBus
 
     @Bean
-    fun bankAccountCommandHandler(): ClientCommandHandler {
+    fun clientCommandHandler(): ClientCommandHandler {
         return ClientCommandHandler(axonConfiguration.repository(Client::class.java), eventBus)
     }
 
