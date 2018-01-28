@@ -2,7 +2,7 @@
 
 set -o errexit
 
-KOTLIN_FILES=$(git diff --cached --name-only **/*.kt)
+KOTLIN_FILES=$(git diff --cached --name-only ./**/*.kt)
 
 if [[ ${KOTLIN_FILES} ]]; then
     ktlint "$KOTLIN_FILES"
