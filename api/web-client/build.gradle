@@ -1,0 +1,4 @@
+dependencies {
+    compile(project(":vetted-web-model"))
+    compile("org.springframework.cloud:spring-cloud-starter-openfeign")
+}

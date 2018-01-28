@@ -1,7 +1,5 @@
-package me.mdjnewman.vetted.controller
+package me.mdjnewman.vetted.model
 
-import me.mdjnewman.vetted.model.AddClientNoteCommandDTO
-import me.mdjnewman.vetted.model.CreateClientCommandDTO
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -12,6 +10,7 @@ interface ClientResource {
 
     companion object {
         const val PATH = "/api/v1/clients"
+        const val NAME = "vetted-web"
     }
 
     @RequestMapping(

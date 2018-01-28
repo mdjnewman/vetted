@@ -1,3 +1,9 @@
+apply plugin: "kotlin-spring"
+apply plugin: "org.springframework.boot"
+
 dependencies {
+    compile(project(":vetted-web-client"))
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-validation")
     compile("com.healthmarketscience.jackcess:jackcess:2.1.9")
 }

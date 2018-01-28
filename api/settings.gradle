@@ -10,11 +10,14 @@ project(':core-api').name = "$rootProject.name-core-api"
 include 'core'
 project(':core').name = "$rootProject.name-core"
 
-include 'service'
-project(':service').name = "$rootProject.name-web"
+include 'web'
+project(':web').name = "$rootProject.name-web"
 
-include 'model'
-project(':model').name = "$rootProject.name-web-model"
+include 'web-model'
+project(':web-model').name = "$rootProject.name-web-model"
+
+include 'web-client'
+project(':web-client').name = "$rootProject.name-web-client"
 
 include 'importer'
 project(':importer').name = "$rootProject.name-importer"

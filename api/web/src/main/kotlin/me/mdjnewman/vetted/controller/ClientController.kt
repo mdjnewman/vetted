@@ -3,8 +3,9 @@ package me.mdjnewman.vetted.controller
 import me.mdjnewman.vetted.Address
 import me.mdjnewman.vetted.command.AddClientNoteCommand
 import me.mdjnewman.vetted.command.CreateClientCommand
-import me.mdjnewman.vetted.controller.ClientResource.Companion.PATH
+import me.mdjnewman.vetted.model.ClientResource.Companion.PATH
 import me.mdjnewman.vetted.model.AddClientNoteCommandDTO
+import me.mdjnewman.vetted.model.ClientResource
 import me.mdjnewman.vetted.model.CreateClientCommandDTO
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.RequestBody
