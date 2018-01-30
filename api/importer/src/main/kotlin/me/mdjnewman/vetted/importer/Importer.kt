@@ -1,6 +1,9 @@
 package me.mdjnewman.vetted.importer
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.healthmarketscience.jackcess.DatabaseBuilder
 import com.healthmarketscience.jackcess.Row
 import com.healthmarketscience.jackcess.Table
@@ -24,6 +27,14 @@ import java.util.concurrent.CompletableFuture
 class Application {
 
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
+    @Bean
+    fun mapper(): ObjectMapper =
+        ObjectMapper()
+            .findAndRegisterModules()
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .setSerializationInclusion(NON_NULL)
 
     @Bean
     fun init(mapper: ObjectMapper) = CommandLineRunner {
