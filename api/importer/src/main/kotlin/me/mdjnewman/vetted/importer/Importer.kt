@@ -70,8 +70,8 @@ fun main(args: Array<String>) {
     SpringApplication.run(Application::class.java, *args)
 }
 
-private fun getConcatenatedName(fname: String?, lname: String?): String =
-    listOf(fname, lname)
+private fun getConcatenatedName(fName: String?, lName: String?): String =
+    listOf(fName, lName)
         .filter { it != null && it.trim().isNotEmpty() }
         .joinToString(" ")
 
