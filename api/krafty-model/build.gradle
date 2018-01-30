@@ -1,4 +1,3 @@
 dependencies {
-    compile("org.springframework:spring-web")
     compile("javax.validation:validation-api")
 }

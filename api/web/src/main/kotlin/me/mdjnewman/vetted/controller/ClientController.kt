@@ -3,13 +3,14 @@ package me.mdjnewman.vetted.controller
 import me.mdjnewman.vetted.Address
 import me.mdjnewman.vetted.command.AddClientNoteCommand
 import me.mdjnewman.vetted.command.CreateClientCommand
-import me.mdjnewman.vetted.model.ClientResource.Companion.PATH
 import me.mdjnewman.vetted.model.AddClientNoteCommandDTO
 import me.mdjnewman.vetted.model.ClientResource
+import me.mdjnewman.vetted.model.ClientResource.Companion.PATH
 import me.mdjnewman.vetted.model.CreateClientCommandDTO
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import java.util.concurrent.CompletableFuture
 import javax.validation.Valid
@@ -19,6 +20,11 @@ import javax.validation.Valid
 class ClientController(
     private val commandGateway: CommandGateway
 ) : ClientResource {
+
+    @RequestMapping(
+        path = arrayOf("/_create"),
+        method = arrayOf(RequestMethod.POST)
+    )
     override fun create(@Valid @RequestBody dto: CreateClientCommandDTO): CompletableFuture<Void> {
         return commandGateway.send<Void>(
             CreateClientCommand(
@@ -37,6 +43,10 @@ class ClientController(
         )
     }
 
+    @RequestMapping(
+        path = arrayOf("/_add-note"),
+        method = arrayOf(RequestMethod.POST)
+    )
     override fun addNote(@Valid @RequestBody dto: AddClientNoteCommandDTO): CompletableFuture<Void> {
         return commandGateway.send<Void>(
             AddClientNoteCommand(

@@ -1,30 +1,40 @@
 package me.mdjnewman.vetted.importer
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.healthmarketscience.jackcess.DatabaseBuilder
 import com.healthmarketscience.jackcess.Row
 import com.healthmarketscience.jackcess.Table
-import me.mdjnewman.vetted.client.VettedClientResource
+import me.mdjnewman.vetted.client.ClientClient
 import me.mdjnewman.vetted.model.AddressDTO
 import me.mdjnewman.vetted.model.CreateClientCommandDTO
-import org.springframework.beans.factory.annotation.Value
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.context.annotation.Bean
+import retrofit2.Retrofit
+import retrofit2.adapter.java8.Java8CallAdapterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 @SpringBootApplication
-@EnableFeignClients(basePackageClasses = arrayOf(VettedClientResource::class))
 class Application {
 
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     @Bean
-    fun init(
-        clientResource: VettedClientResource,
-        @Value("\${vetted-web.ribbon.listOfServers}") servers: List<String>
-    ) = CommandLineRunner {
+    fun init(mapper: ObjectMapper) = CommandLineRunner {
+
+        val clientResource = Retrofit.Builder()
+            .baseUrl("http://localhost:9001") // TODO
+            .addCallAdapterFactory(Java8CallAdapterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create(mapper))
+            .build()
+            .create(ClientClient::class.java)
+
         val database = DatabaseBuilder.open(File("/Users/mnewman/projects/mdbtools/main.accdb"))
 
 //        database.tableNames.forEach { println(it) }
@@ -45,10 +55,14 @@ class Application {
                     )
                 )
             }
-            .map { c -> clientResource.create(c) }
+            .map { c ->
+                val future = clientResource.create(c)
+                logger.info("Created $c")
+                future
+            }
             .toTypedArray()
 
-        CompletableFuture.allOf(*futures)
+        CompletableFuture.allOf(*futures).get()
     }
 }
 
