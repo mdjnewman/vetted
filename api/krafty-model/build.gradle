@@ -1,3 +1,0 @@
-dependencies {
-    compile("javax.validation:validation-api")
-}
