@@ -1,4 +1,0 @@
-vetted-web.ribbon.listOfServers:
-  - localhost:9000
-
-#ribbon.eureka.enabled: false

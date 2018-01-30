@@ -1,0 +1,4 @@
+ribbon.eureka.enabled: false
+
+vetted-web.ribbon.listOfServers:
+  - localhost:9001
