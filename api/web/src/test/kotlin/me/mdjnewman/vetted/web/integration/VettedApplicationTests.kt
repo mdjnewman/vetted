@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.integration
+package me.mdjnewman.vetted.web.integration
 
 import org.junit.Test
 import org.junit.runner.RunWith

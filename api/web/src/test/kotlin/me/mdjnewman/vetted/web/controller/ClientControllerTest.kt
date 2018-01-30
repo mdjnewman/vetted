@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.controller
+package me.mdjnewman.vetted.web.controller
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody

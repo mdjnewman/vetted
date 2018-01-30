@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted
+package me.mdjnewman.vetted.web
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

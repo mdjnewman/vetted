@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.domain
+package me.mdjnewman.vetted.core.domain
 
 import me.mdjnewman.vetted.event.ClientCreatedEvent
 import me.mdjnewman.vetted.event.ClientNoteAddedEvent

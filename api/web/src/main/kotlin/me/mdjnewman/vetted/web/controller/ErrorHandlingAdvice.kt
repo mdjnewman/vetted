@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.controller
+package me.mdjnewman.vetted.web.controller
 
 import me.mdjnewman.krafty.model.ApiValidationErrorDetails
 import me.mdjnewman.krafty.model.ApiValidationResponse
@@ -19,7 +19,6 @@ import javax.validation.ConstraintViolationException
 
 @ControllerAdvice
 class ErrorHandlingAdvice {
-
     @ExceptionHandler(ConcurrencyException::class)
     fun handleException(exception: ConcurrencyException): ResponseEntity<*> {
         return status(HttpStatus.INTERNAL_SERVER_ERROR).body("nope")
@@ -28,7 +27,7 @@ class ErrorHandlingAdvice {
     @ExceptionHandler(AggregateNotFoundException::class)
     fun handleException(exception: AggregateNotFoundException): ResponseEntity<*> {
         return status(HttpStatus.NOT_FOUND).body(
-            ResourceNotFoundResponse<ErrorCode>(
+            ResourceNotFoundResponse(
                 details = listOf(ResourceNotFoundDetails(exception.aggregateIdentifier)),
                 errorCode = RESOURCE_NOT_FOUND
             )
@@ -38,7 +37,7 @@ class ErrorHandlingAdvice {
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleException(exception: ConstraintViolationException): ResponseEntity<ApiValidationResponse<ErrorCode>> {
         return status(HttpStatus.BAD_REQUEST).body(
-            ApiValidationResponse<ErrorCode>(
+            ApiValidationResponse(
                 exception.constraintViolations.map {
                     ApiValidationErrorDetails(
                         field = it.propertyPath.toString(),
@@ -53,7 +52,7 @@ class ErrorHandlingAdvice {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleException(exception: MethodArgumentNotValidException): ResponseEntity<ApiValidationResponse<ErrorCode>> {
         return status(HttpStatus.BAD_REQUEST).body(
-            ApiValidationResponse<ErrorCode>(
+            ApiValidationResponse(
                 details = exception.bindingResult.fieldErrors.map {
                     ApiValidationErrorDetails(
                         field = it.field.toString(),

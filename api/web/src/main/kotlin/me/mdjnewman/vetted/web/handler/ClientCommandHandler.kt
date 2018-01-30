@@ -1,6 +1,6 @@
-package me.mdjnewman.vetted.handler
+package me.mdjnewman.vetted.web.handler
 
-import me.mdjnewman.vetted.domain.Client
+import me.mdjnewman.vetted.core.domain.Client
 import org.axonframework.commandhandling.model.Repository
 import org.axonframework.eventhandling.EventBus
 import org.springframework.context.annotation.Lazy

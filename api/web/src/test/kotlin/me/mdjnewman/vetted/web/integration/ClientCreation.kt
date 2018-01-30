@@ -1,8 +1,8 @@
-package me.mdjnewman.vetted.integration
+package me.mdjnewman.vetted.web.integration
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
-import me.mdjnewman.vetted.VettedApplication
+import me.mdjnewman.vetted.web.VettedApplication
 import me.mdjnewman.vetted.command.AddClientNoteCommand
 import me.mdjnewman.vetted.model.AddressDTO
 import me.mdjnewman.vetted.model.CreateClientCommandDTO
