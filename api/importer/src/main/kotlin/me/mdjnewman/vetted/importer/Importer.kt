@@ -1,79 +1,58 @@
 package me.mdjnewman.vetted.importer
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
 import com.healthmarketscience.jackcess.DatabaseBuilder
 import com.healthmarketscience.jackcess.Row
 import com.healthmarketscience.jackcess.Table
-import me.mdjnewman.vetted.client.ClientClient
-import me.mdjnewman.vetted.model.AddressDTO
-import me.mdjnewman.vetted.model.CreateClientCommandDTO
+import me.mdjnewman.vetted.Address
+import me.mdjnewman.vetted.command.MigrateClientCommand
+import me.mdjnewman.vetted.core.VettedCoreMarker
+import org.axonframework.commandhandling.gateway.CommandGateway
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
-import retrofit2.Retrofit
-import retrofit2.adapter.java8.Java8CallAdapterFactory
-import retrofit2.converter.jackson.JacksonConverterFactory
+import org.springframework.context.annotation.ComponentScan
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 @SpringBootApplication
+@ComponentScan(basePackageClasses = arrayOf(VettedCoreMarker::class))
 class Application {
 
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Bean
-    fun mapper(): ObjectMapper =
-        ObjectMapper()
-            .findAndRegisterModules()
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .setSerializationInclusion(NON_NULL)
+    fun init(
+        commandGateway: CommandGateway
+    ) = CommandLineRunner {
+        val databaseToImport = DatabaseBuilder.open(File("/Users/mnewman/projects/mdbtools/main.accdb"))
+        val postcodeTable = databaseToImport.getTable("Postcodes")
+        val clientsTable = databaseToImport.getTable("Clients")
 
-    @Bean
-    fun init(mapper: ObjectMapper) = CommandLineRunner {
-
-        val clientResource = Retrofit.Builder()
-            .baseUrl("http://localhost:9001") // TODO
-            .addCallAdapterFactory(Java8CallAdapterFactory.create())
-            .addConverterFactory(JacksonConverterFactory.create(mapper))
-            .build()
-            .create(ClientClient::class.java)
-
-        val database = DatabaseBuilder.open(File("/Users/mnewman/projects/mdbtools/main.accdb"))
-
-//        database.tableNames.forEach { println(it) }
-//        database.queries.forEach { println(it.name) }
-//        ExportUtil.exportAll(database, File("/Users/mnewman/Desktop/foo"), "csv", true)
-
-        val futures = database.getTable("Clients")
-            .map {
-                CreateClientCommandDTO(
-                    clientId = UUID.randomUUID(),
-                    name = getConcatenatedName(it["First Name"] as String?, it["Last Name/Trading Name"] as String?),
-                    address = AddressDTO(
-                        addressLineOne = it["Street Address/PO Box"] as String,
-                        addressLineTwo = null,
-                        postcode = getPostcode(it["Town"] as String, database.getTable("Postcodes")),
-                        town = it["Town"] as String,
-                        state = getState(it["Town"] as String, database.getTable("Postcodes"))
+        val migrateCommandResults =
+            clientsTable
+                .map(::buildClientTableRow)
+                .map {
+                    MigrateClientCommand(
+                        clientId = UUID.randomUUID(),
+                        name = it.name,
+                        address = Address(
+                            addressLineOne = it.street,
+                            addressLineTwo = null,
+                            postcode = getPostcode(it.town, postcodeTable),
+                            town = it.town,
+                            state = getState(it.town, postcodeTable)
+                        ),
+                        priorId = it.clientId
                     )
-                )
-            }
-            .map { c ->
-                val future = clientResource.create(c)
-                logger.info("Created $c")
-                future
-            }
-            .toTypedArray()
+                }
+                .map { commandGateway.send<Void>(it) }
+                .toTypedArray()
 
-        CompletableFuture.allOf(*futures).get()
+        CompletableFuture.allOf(*migrateCommandResults).get()
     }
 }
 
@@ -95,3 +74,23 @@ private fun getState(town: String, table: Table): String =
 private fun findRowForTown(table: Table, town: String): Row =
     table.firstOrNull { town.equals(it["Town"] as String, true) }
         ?: throw RuntimeException("No row for town: $town")
+
+private fun buildClientTableRow(row: Row): ClientTableRow {
+    return ClientTableRow(
+        fName = row["First Name"] as String?,
+        lName = row["Last Name/Trading Name"] as String?,
+        street = row["Street Address/PO Box"] as String,
+        town = row["Town"] as String,
+        clientId = row["ClientId"] as String
+    )
+}
+
+data class ClientTableRow(
+    private val fName: String?,
+    private val lName: String?,
+    val street: String,
+    val town: String,
+    val clientId: String
+) {
+    val name = getConcatenatedName(fName, lName)
+}

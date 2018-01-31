@@ -7,6 +7,7 @@ import me.mdjnewman.vetted.model.AddClientNoteCommandDTO
 import me.mdjnewman.vetted.model.ClientResource
 import me.mdjnewman.vetted.model.ClientResource.Companion.PATH
 import me.mdjnewman.vetted.model.CreateClientCommandDTO
+import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.POST
@@ -17,7 +18,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping(PATH)
 class ClientController(
-    private val commandGateway: org.axonframework.commandhandling.gateway.CommandGateway
+    private val commandGateway: CommandGateway
 ) : ClientResource {
     @RequestMapping(
         path = arrayOf("/_create"),

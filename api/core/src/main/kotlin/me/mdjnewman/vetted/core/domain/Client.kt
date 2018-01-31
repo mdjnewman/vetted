@@ -1,11 +1,13 @@
 package me.mdjnewman.vetted.core.domain
 
-import me.mdjnewman.vetted.event.ClientCreatedEvent
-import me.mdjnewman.vetted.event.ClientNoteAddedEvent
 import me.mdjnewman.vetted.Address
 import me.mdjnewman.vetted.ClientNote
 import me.mdjnewman.vetted.command.AddClientNoteCommand
 import me.mdjnewman.vetted.command.CreateClientCommand
+import me.mdjnewman.vetted.command.MigrateClientCommand
+import me.mdjnewman.vetted.event.ClientCreatedEvent
+import me.mdjnewman.vetted.event.ClientMigratedEvent
+import me.mdjnewman.vetted.event.ClientNoteAddedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.model.AggregateIdentifier
 import org.axonframework.commandhandling.model.AggregateLifecycle.apply
@@ -41,7 +43,19 @@ class Client {
         apply(ClientCreatedEvent(
             clientId = command.clientId,
             name = command.name,
-            address = command.address
+            address = command.address,
+            dateCreated = command.dateCreated
+        ))
+    }
+
+    @CommandHandler
+    constructor(command: MigrateClientCommand) {
+        apply(ClientMigratedEvent(
+            clientId = command.clientId,
+            name = command.name,
+            address = command.address,
+            priorId = command.priorId,
+            dateCreated = command.dateCreated
         ))
     }
 
@@ -59,6 +73,13 @@ class Client {
 
     @EventSourcingHandler
     fun on(event: ClientCreatedEvent) {
+        this.id = event.clientId
+        this.name = event.name
+        this.address = event.address
+    }
+
+    @EventSourcingHandler
+    fun on(event: ClientMigratedEvent) {
         this.id = event.clientId
         this.name = event.name
         this.address = event.address
