@@ -31,8 +31,6 @@ class Client {
     final lateinit var address: Address
         private set
 
-    private var isBadDebtor: Boolean = false
-
     private val contactNumbers: MutableSet<PhoneNumber> = mutableSetOf()
 
     private val notes: MutableSet<ClientNote> = mutableSetOf()
