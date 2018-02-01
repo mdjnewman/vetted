@@ -61,15 +61,16 @@ private fun addClientNotes(
     allOf(
         *clientTableRows
             .flatMap { row ->
-                listOf(row.clientNotes, row.contact)
-                    .filter { it != null }
-                    .map {
+                listOf(row.clientNotes, row.contact).map {
+                    it?.let {
                         AddNoteToClientCommand(
-                            clientId = newClientIds[row.clientId]!!,
-                            noteText = it!!
+                            clientId = newClientIds.getValue(row.clientId),
+                            noteText = it
                         )
                     }
+                }
             }
+            .filter { it != null }
             .map { commandGateway.send<CompletableFuture<Void>>(it) }
             .toTypedArray()
     )
@@ -84,7 +85,7 @@ private fun addMostCommonDistance(
             .map { row ->
                 row.mostCommonDistance?.let {
                     AddNoteToClientCommand(
-                        clientId = newClientIds[row.clientId]!!,
+                        clientId = newClientIds.getValue(row.clientId),
                         noteText = "Most common travel distance is $it km")
                 }
             }
@@ -101,15 +102,20 @@ private fun addPhoneNumbers(
     allOf(
         *clientTableRows
             .flatMap { row ->
-                listOf(Pair("Home", row.homePhone), Pair("Mobile", row.mobilePhone))
-                    .filter { it.second != null }
-                    .map {
-                        AddPhoneNumberToClientCommand(
-                            clientId = newClientIds[row.clientId]!!,
-                            phoneNumber = PhoneNumber(it.first, it.second!!)
-                        )
-                    }
+                listOf(
+                    row.homePhone?.let { Triple(row.clientId, "Home", it) },
+                    row.mobilePhone?.let { Triple(row.clientId, "Mobile", it) }
+                )
             }
+            .map {
+                it?.let {
+                    AddPhoneNumberToClientCommand(
+                        clientId = newClientIds.getValue(it.first),
+                        phoneNumber = PhoneNumber(it.second, it.third)
+                    )
+                }
+            }
+            .filter { it != null }
             .map { commandGateway.send<CompletableFuture<Void>>(it) }
             .toTypedArray()
     )
