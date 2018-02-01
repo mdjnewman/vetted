@@ -4,7 +4,9 @@ import com.healthmarketscience.jackcess.DatabaseBuilder
 import com.healthmarketscience.jackcess.Row
 import com.healthmarketscience.jackcess.Table
 import me.mdjnewman.vetted.Address
-import me.mdjnewman.vetted.command.AddClientNoteCommand
+import me.mdjnewman.vetted.PhoneNumber
+import me.mdjnewman.vetted.command.AddNoteToClientCommand
+import me.mdjnewman.vetted.command.AddPhoneNumberToClientCommand
 import me.mdjnewman.vetted.command.MigrateClientCommand
 import me.mdjnewman.vetted.core.VettedCoreMarker
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -41,6 +43,8 @@ class Application {
         )
 
         addClientNotes(clientTableRows, newClientIds, commandGateway)
+        addPhoneNumbers(clientTableRows, newClientIds, commandGateway)
+        addMostCommonDistance(clientTableRows, newClientIds, commandGateway)
     }
 }
 
@@ -68,12 +72,53 @@ private fun addClientNotes(
     commandGateway: CommandGateway
 ) =
     allOf(*clientTableRows
-        .filter { it.clientNotes != null }
-        .map {
-            AddClientNoteCommand(
-                clientId = newClientIds[it.clientId]!!,
-                noteText = it.clientNotes!!
-            )
+        .flatMap { row ->
+            listOf(row.clientNotes, row.contact)
+                .filter { it != null }
+                .map {
+                    AddNoteToClientCommand(
+                        clientId = newClientIds[row.clientId]!!,
+                        noteText = it!!
+                    )
+                }
+        }
+        .map { commandGateway.send<CompletableFuture<Void>>(it) }
+        .toTypedArray()
+    ).get()
+
+private fun addMostCommonDistance(
+    clientTableRows: List<ClientTableRow>,
+    newClientIds: Map<String, UUID>,
+    commandGateway: CommandGateway
+) =
+    allOf(*clientTableRows
+        .map { row ->
+            row.mostCommonDistance?.let {
+                AddNoteToClientCommand(
+                    clientId = newClientIds[row.clientId]!!,
+                    noteText = "Most common travel distance is $it km")
+            }
+        }
+        .filter { it != null }
+        .map { commandGateway.send<CompletableFuture<Void>>(it) }
+        .toTypedArray()
+    ).get()
+
+private fun addPhoneNumbers(
+    clientTableRows: List<ClientTableRow>,
+    newClientIds: Map<String, UUID>,
+    commandGateway: CommandGateway
+) =
+    allOf(*clientTableRows
+        .flatMap { row ->
+            listOf(Pair("Home", row.homePhone), Pair("Mobile", row.mobilePhone))
+                .filter { it.second != null }
+                .map {
+                    AddPhoneNumberToClientCommand(
+                        clientId = newClientIds[row.clientId]!!,
+                        phoneNumber = PhoneNumber(it.first, it.second!!)
+                    )
+                }
         }
         .map { commandGateway.send<CompletableFuture<Void>>(it) }
         .toTypedArray()
@@ -96,12 +141,16 @@ private fun findRowForTown(table: Table, town: String): Row =
 
 private fun buildClientTableRow(row: Row) =
     ClientTableRow(
-        fName = row["First Name"] as String?,
-        lName = row["Last Name/Trading Name"] as String?,
-        street = row["Street Address/PO Box"] as String,
-        town = row["Town"] as String,
+        fName = (row["First Name"] as String?)?.trim(),
+        lName = (row["Last Name/Trading Name"] as String?)?.trim(),
+        street = (row["Street Address/PO Box"] as String).trim(),
+        town = (row["Town"] as String).trim(),
         clientId = (row["ClientID"] as Int).toString(),
-        clientNotes = (row["Client Notes"] as String?)?.trim()
+        clientNotes = (row["Client Notes"] as String?)?.trim(),
+        contact = (row["Contact"] as String?)?.trim(),
+        homePhone = (row["Home Phone"] as String?)?.trim(),
+        mobilePhone = (row["Mobile Phone"] as String?)?.trim(),
+        mostCommonDistance = (row["Most Common Distance"] as Int?)
     )
 
 data class ClientTableRow(
@@ -110,7 +159,11 @@ data class ClientTableRow(
     val street: String,
     val town: String,
     val clientId: String,
-    val clientNotes: String?
+    val clientNotes: String?,
+    val contact: String?,
+    val homePhone: String?,
+    val mobilePhone: String?,
+    val mostCommonDistance: Int?
 ) {
     val name = getConcatenatedName(fName, lName)
 }

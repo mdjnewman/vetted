@@ -2,12 +2,15 @@ package me.mdjnewman.vetted.core.domain
 
 import me.mdjnewman.vetted.Address
 import me.mdjnewman.vetted.ClientNote
-import me.mdjnewman.vetted.command.AddClientNoteCommand
+import me.mdjnewman.vetted.PhoneNumber
+import me.mdjnewman.vetted.command.AddNoteToClientCommand
+import me.mdjnewman.vetted.command.AddPhoneNumberToClientCommand
 import me.mdjnewman.vetted.command.CreateClientCommand
 import me.mdjnewman.vetted.command.MigrateClientCommand
 import me.mdjnewman.vetted.event.ClientCreatedEvent
 import me.mdjnewman.vetted.event.ClientMigratedEvent
 import me.mdjnewman.vetted.event.ClientNoteAddedEvent
+import me.mdjnewman.vetted.event.ClientPhoneNumberAddedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.model.AggregateIdentifier
 import org.axonframework.commandhandling.model.AggregateLifecycle.apply
@@ -27,10 +30,6 @@ class Client {
 
     final lateinit var address: Address
         private set
-
-    private var contactName: String? = null
-
-    private var regularTravelDistance: Int? = null
 
     private var isBadDebtor: Boolean = false
 
@@ -64,10 +63,17 @@ class Client {
     constructor()
 
     @CommandHandler
-    fun addNote(command: AddClientNoteCommand) {
+    fun addNote(command: AddNoteToClientCommand) {
         val clientNote = ClientNote(command.noteText)
         if (!notes.contains(clientNote)) {
             apply(ClientNoteAddedEvent(id, clientNote))
+        }
+    }
+
+    @CommandHandler
+    fun addPhoneNumber(command: AddPhoneNumberToClientCommand) {
+        if (!contactNumbers.contains(command.phoneNumber)) {
+            apply(ClientPhoneNumberAddedEvent(id, command.phoneNumber))
         }
     }
 
@@ -88,5 +94,10 @@ class Client {
     @EventSourcingHandler
     fun on(event: ClientNoteAddedEvent) {
         notes.add(event.clientNote)
+    }
+
+    @EventSourcingHandler
+    fun on(event: ClientPhoneNumberAddedEvent) {
+        contactNumbers.add(event.phoneNumber)
     }
 }

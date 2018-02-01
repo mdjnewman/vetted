@@ -1,7 +1,7 @@
 package me.mdjnewman.vetted.web.controller
 
 import me.mdjnewman.vetted.Address
-import me.mdjnewman.vetted.command.AddClientNoteCommand
+import me.mdjnewman.vetted.command.AddNoteToClientCommand
 import me.mdjnewman.vetted.command.CreateClientCommand
 import me.mdjnewman.vetted.model.AddClientNoteCommandDTO
 import me.mdjnewman.vetted.model.ClientResource
@@ -48,7 +48,7 @@ class ClientController(
     )
     override fun addNote(@Valid @RequestBody dto: AddClientNoteCommandDTO): CompletableFuture<Void> {
         return commandGateway.send<Void>(
-            AddClientNoteCommand(
+            AddNoteToClientCommand(
                 clientId = dto.clientId,
                 noteText = dto.noteText
             )
