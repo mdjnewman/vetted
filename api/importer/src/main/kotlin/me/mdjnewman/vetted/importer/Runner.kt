@@ -5,9 +5,13 @@ import me.mdjnewman.vetted.api.PhoneNumber
 import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
 import me.mdjnewman.vetted.api.command.AddPhoneNumberToClientCommand
 import me.mdjnewman.vetted.api.command.MigrateClientCommand
+import org.axonframework.commandhandling.AsynchronousCommandBus
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import org.springframework.util.StopWatch
+import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.allOf
@@ -15,9 +19,16 @@ import java.util.concurrent.CompletableFuture.allOf
 @Component
 class Runner(
     private val commandGateway: CommandGateway,
-    private val accessDb: AccessDatabaseLoader
+    private val accessDb: AccessDatabaseLoader,
+    private val asynchronousCommandBus: Optional<AsynchronousCommandBus>
 ) : CommandLineRunner {
+    private val logger = LoggerFactory.getLogger(this.javaClass)
+
     override fun run(vararg args: String?) {
+
+        val stopWatch = StopWatch()
+        stopWatch.start()
+        logger.info("Starting import ...")
 
         val newClientIds: Map<String, UUID> = createClients(
             accessDb.clientTableRows,
@@ -26,11 +37,19 @@ class Runner(
             commandGateway
         )
 
+        logger.info("Done creating clients ...")
+
         allOf(
             addClientNotes(accessDb.clientTableRows, newClientIds, commandGateway),
             addPhoneNumbers(accessDb.clientTableRows, newClientIds, commandGateway),
             addMostCommonDistance(accessDb.clientTableRows, newClientIds, commandGateway)
         ).get()
+
+        stopWatch.stop()
+
+        logger.info("Done in ${stopWatch.lastTaskInfo.timeSeconds} seconds")
+
+        asynchronousCommandBus.ifPresent { it.shutdown() }
     }
 }
 
