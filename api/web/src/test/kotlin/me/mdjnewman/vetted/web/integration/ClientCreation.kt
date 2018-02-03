@@ -2,10 +2,10 @@ package me.mdjnewman.vetted.web.integration
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
+import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
 import me.mdjnewman.vetted.web.VettedApplication
-import me.mdjnewman.vetted.command.AddNoteToClientCommand
-import me.mdjnewman.vetted.model.AddressDTO
-import me.mdjnewman.vetted.model.CreateClientCommandDTO
+import me.mdjnewman.vetted.web.model.AddressDTO
+import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 import org.junit.runner.RunWith

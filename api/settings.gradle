@@ -4,11 +4,14 @@ include 'krafty-model'
 include 'krafty-test'
 include 'krafty-utils'
 
-include 'core-api'
-project(':core-api').name = "$rootProject.name-core-api"
+include 'api'
+project(':api').name = "$rootProject.name-api"
 
 include 'core'
 project(':core').name = "$rootProject.name-core"
+
+include 'query'
+project(':query').name = "$rootProject.name-query"
 
 include 'web'
 project(':web').name = "$rootProject.name-web"

@@ -1,8 +1,8 @@
 package me.mdjnewman.vetted.core.domain
 
-import me.mdjnewman.vetted.Address
-import me.mdjnewman.vetted.command.CreateClientCommand
-import me.mdjnewman.vetted.event.ClientCreatedEvent
+import me.mdjnewman.vetted.api.Address
+import me.mdjnewman.vetted.api.command.CreateClientCommand
+import me.mdjnewman.vetted.api.event.ClientCreatedEvent
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.junit.Before

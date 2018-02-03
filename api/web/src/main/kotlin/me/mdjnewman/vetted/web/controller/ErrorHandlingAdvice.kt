@@ -4,9 +4,9 @@ import me.mdjnewman.krafty.model.ApiValidationErrorDetails
 import me.mdjnewman.krafty.model.ApiValidationResponse
 import me.mdjnewman.krafty.model.ResourceNotFoundDetails
 import me.mdjnewman.krafty.model.ResourceNotFoundResponse
-import me.mdjnewman.vetted.model.ErrorCode
-import me.mdjnewman.vetted.model.ErrorCode.RESOURCE_NOT_FOUND
-import me.mdjnewman.vetted.model.ErrorCode.VALIDATION_ERROR
+import me.mdjnewman.vetted.web.model.ErrorCode
+import me.mdjnewman.vetted.web.model.ErrorCode.RESOURCE_NOT_FOUND
+import me.mdjnewman.vetted.web.model.ErrorCode.VALIDATION_ERROR
 import org.axonframework.commandhandling.model.AggregateNotFoundException
 import org.axonframework.commandhandling.model.ConcurrencyException
 import org.springframework.http.HttpStatus

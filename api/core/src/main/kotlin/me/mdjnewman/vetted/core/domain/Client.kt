@@ -1,16 +1,16 @@
 package me.mdjnewman.vetted.core.domain
 
-import me.mdjnewman.vetted.Address
-import me.mdjnewman.vetted.ClientNote
-import me.mdjnewman.vetted.PhoneNumber
-import me.mdjnewman.vetted.command.AddNoteToClientCommand
-import me.mdjnewman.vetted.command.AddPhoneNumberToClientCommand
-import me.mdjnewman.vetted.command.CreateClientCommand
-import me.mdjnewman.vetted.command.MigrateClientCommand
-import me.mdjnewman.vetted.event.ClientCreatedEvent
-import me.mdjnewman.vetted.event.ClientMigratedEvent
-import me.mdjnewman.vetted.event.ClientNoteAddedEvent
-import me.mdjnewman.vetted.event.ClientPhoneNumberAddedEvent
+import me.mdjnewman.vetted.api.Address
+import me.mdjnewman.vetted.api.ClientNote
+import me.mdjnewman.vetted.api.PhoneNumber
+import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
+import me.mdjnewman.vetted.api.command.AddPhoneNumberToClientCommand
+import me.mdjnewman.vetted.api.command.CreateClientCommand
+import me.mdjnewman.vetted.api.command.MigrateClientCommand
+import me.mdjnewman.vetted.api.event.ClientCreatedEvent
+import me.mdjnewman.vetted.api.event.ClientMigratedEvent
+import me.mdjnewman.vetted.api.event.ClientNoteAddedEvent
+import me.mdjnewman.vetted.api.event.ClientPhoneNumberAddedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.model.AggregateIdentifier
 import org.axonframework.commandhandling.model.AggregateLifecycle.apply

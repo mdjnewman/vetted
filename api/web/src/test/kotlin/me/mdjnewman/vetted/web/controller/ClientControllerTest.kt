@@ -2,10 +2,10 @@ package me.mdjnewman.vetted.web.controller
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
-import me.mdjnewman.vetted.command.CreateClientCommand
-import me.mdjnewman.vetted.model.AddressDTO
-import me.mdjnewman.vetted.model.CreateClientCommandDTO
-import me.mdjnewman.vetted.model.ErrorCode
+import me.mdjnewman.vetted.api.command.CreateClientCommand
+import me.mdjnewman.vetted.web.model.AddressDTO
+import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
+import me.mdjnewman.vetted.web.model.ErrorCode
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.Test
 import org.junit.runner.RunWith

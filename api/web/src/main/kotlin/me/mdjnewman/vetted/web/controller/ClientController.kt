@@ -1,12 +1,12 @@
 package me.mdjnewman.vetted.web.controller
 
-import me.mdjnewman.vetted.Address
-import me.mdjnewman.vetted.command.AddNoteToClientCommand
-import me.mdjnewman.vetted.command.CreateClientCommand
-import me.mdjnewman.vetted.model.AddClientNoteCommandDTO
-import me.mdjnewman.vetted.model.ClientResource
-import me.mdjnewman.vetted.model.ClientResource.Companion.PATH
-import me.mdjnewman.vetted.model.CreateClientCommandDTO
+import me.mdjnewman.vetted.api.Address
+import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
+import me.mdjnewman.vetted.api.command.CreateClientCommand
+import me.mdjnewman.vetted.web.model.AddClientNoteCommandDTO
+import me.mdjnewman.vetted.web.model.ClientResource
+import me.mdjnewman.vetted.web.model.ClientResource.Companion.PATH
+import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

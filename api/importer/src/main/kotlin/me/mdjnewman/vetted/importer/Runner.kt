@@ -1,10 +1,10 @@
 package me.mdjnewman.vetted.importer
 
-import me.mdjnewman.vetted.Address
-import me.mdjnewman.vetted.PhoneNumber
-import me.mdjnewman.vetted.command.AddNoteToClientCommand
-import me.mdjnewman.vetted.command.AddPhoneNumberToClientCommand
-import me.mdjnewman.vetted.command.MigrateClientCommand
+import me.mdjnewman.vetted.api.Address
+import me.mdjnewman.vetted.api.PhoneNumber
+import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
+import me.mdjnewman.vetted.api.command.AddPhoneNumberToClientCommand
+import me.mdjnewman.vetted.api.command.MigrateClientCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
