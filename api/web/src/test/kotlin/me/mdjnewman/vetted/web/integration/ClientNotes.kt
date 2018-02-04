@@ -2,10 +2,10 @@ package me.mdjnewman.vetted.web.integration
 
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
+import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
 import me.mdjnewman.vetted.web.VettedApplication
 import me.mdjnewman.vetted.web.model.AddressDTO
 import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
-import org.hamcrest.CoreMatchers
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -14,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDO
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.UUID
 import javax.inject.Inject
@@ -23,13 +21,13 @@ import javax.inject.Inject
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = arrayOf(VettedApplication::class), webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-class ClientCreation {
+class ClientNotes {
 
     @Inject
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun shouldRejectDuplicateCreation() {
+    fun shouldAddNoteToClient() {
         val createClientCommand = CreateClientCommandDTO(
             name = "Fred Smith",
             clientId = UUID.randomUUID(),
@@ -46,14 +44,16 @@ class ClientCreation {
                 post("/api/v1/clients/_create").withJsonBody(createClientCommand)
             )
             .andExpect(status().isOk)
-            .andDo(MockMvcResultHandlers.print())
-            .andExpect(content().string(CoreMatchers.containsString("-")))
+
+        val addClientNoteCommand = AddNoteToClientCommand(
+            clientId = createClientCommand.clientId,
+            noteText = "Lovely note about a client"
+        )
 
         mockMvc
             .performIgnorant(
-                post("/api/v1/clients/_create").withJsonBody(createClientCommand)
+                post("/api/v1/clients/_add-note").withJsonBody(addClientNoteCommand)
             )
-            .andExpect(status().is5xxServerError)
-            .andDo(MockMvcResultHandlers.print())
+            .andExpect(status().isOk)
     }
 }
