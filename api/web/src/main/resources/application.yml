@@ -1,5 +1,3 @@
-#logging.level.org.springframework: DEBUG
-
 spring.profiles.include: common
 
 server.port: 9001

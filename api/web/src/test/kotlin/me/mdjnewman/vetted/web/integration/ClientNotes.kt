@@ -3,7 +3,7 @@ package me.mdjnewman.vetted.web.integration
 import me.mdjnewman.krafty.test.performIgnorant
 import me.mdjnewman.krafty.test.withJsonBody
 import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
-import me.mdjnewman.vetted.web.VettedApplication
+import me.mdjnewman.vetted.web.VettedWebApplication
 import me.mdjnewman.vetted.web.model.AddressDTO
 import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
 import org.junit.Test
@@ -19,7 +19,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @RunWith(SpringRunner::class)
-@SpringBootTest(classes = arrayOf(VettedApplication::class), webEnvironment = RANDOM_PORT)
+@SpringBootTest(classes = arrayOf(VettedWebApplication::class), webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 class ClientNotes {
 

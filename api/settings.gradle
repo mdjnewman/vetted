@@ -10,6 +10,9 @@ project(':api').name = "$rootProject.name-api"
 include 'core'
 project(':core').name = "$rootProject.name-core"
 
+include 'core-infrastructure'
+project(':core-infrastructure').name = "$rootProject.name-core-infrastructure"
+
 include 'query'
 project(':query').name = "$rootProject.name-query"
 

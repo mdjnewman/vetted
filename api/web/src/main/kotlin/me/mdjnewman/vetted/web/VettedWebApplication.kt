@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class VettedApplication
+class VettedWebApplication
 
 fun main(args: Array<String>) {
-    SpringApplication.run(VettedApplication::class.java, *args)
+    SpringApplication.run(VettedWebApplication::class.java, *args)
 }

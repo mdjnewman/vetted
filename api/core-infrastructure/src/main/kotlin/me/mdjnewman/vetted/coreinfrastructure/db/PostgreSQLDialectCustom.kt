@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.importer
+package me.mdjnewman.vetted.coreinfrastructure.db
 
 import org.hibernate.dialect.PostgreSQL95Dialect
 import org.hibernate.type.descriptor.sql.BinaryTypeDescriptor

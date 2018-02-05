@@ -15,6 +15,7 @@ import org.axonframework.serialization.json.JacksonSerializer
 import org.axonframework.spring.config.AxonConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -30,6 +31,7 @@ class AxonConfig {
     private lateinit var eventBus: EventBus
 
     @Bean
+    @ConditionalOnProperty("axon.use-async-command-bus", matchIfMissing = true)
     fun bus(
         tm: TransactionManager,
         @Value("\${axon.command-bus.executor.pool-size}") poolSize: Int
@@ -45,6 +47,7 @@ class AxonConfig {
 
     @Primary
     @Bean
+    @ConditionalOnProperty("axon.use-cbor-serializer", matchIfMissing = true)
     fun serializer(): Serializer {
         val objectMapper = ObjectMapper(CBORFactory())
         objectMapper.findAndRegisterModules()

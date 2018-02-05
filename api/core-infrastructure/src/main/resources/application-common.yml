@@ -1,0 +1,15 @@
+axon.command-bus.executor.pool-size: 10
+
+spring:
+  datasource:
+    hikari.maximum-pool-size: ${axon.command-bus.executor.pool-size}
+
+---
+
+spring:
+  profiles: postgres
+  jpa:
+    database-platform: me.mdjnewman.vetted.coreinfrastructure.db.PostgreSQLDialectCustom
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari.maximum-pool-size: ${axon.command-bus.executor.pool-size}

@@ -4,6 +4,7 @@ apply plugin: "org.springframework.boot"
 dependencies {
     compile(project(":vetted-web-model"))
     compile(project(":vetted-core"))
+    compile(project(":vetted-core-infrastructure"))
     compile(project(":vetted-api"))
     compile(project(":krafty-utils"))
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
