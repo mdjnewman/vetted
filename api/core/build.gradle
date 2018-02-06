@@ -1,13 +1,10 @@
 apply plugin: "kotlin-spring"
 
-def jacksonCoreVersion = dependencyManagement.managedVersions['com.fasterxml.jackson.core:jackson-core']
-
 dependencies {
     compile(project(":vetted-api"))
-    compile("org.springframework.boot:spring-boot-starter-json")
-    compile("org.springframework.boot:spring-boot-starter-validation")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${jacksonCoreVersion}")
     compile("org.axonframework:axon-spring:$axonVersion")
+    compile("org.springframework.boot:spring-boot-starter-validation")
+    compile("org.springframework:spring-context")
     testCompile("junit:junit")
     testCompile("org.axonframework:axon-test:$axonVersion")
     testCompile("org.hamcrest:hamcrest-library")

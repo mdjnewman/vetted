@@ -1,4 +1,4 @@
-package me.mdjnewman.vetted.core.config
+package me.mdjnewman.vetted.coreinfrastructure.config
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -7,13 +7,10 @@ import org.axonframework.commandhandling.AsynchronousCommandBus
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.CommandMessage
 import org.axonframework.common.transaction.TransactionManager
-import org.axonframework.eventhandling.EventBus
 import org.axonframework.messaging.interceptors.BeanValidationInterceptor
 import org.axonframework.messaging.interceptors.TransactionManagingInterceptor
 import org.axonframework.serialization.Serializer
 import org.axonframework.serialization.json.JacksonSerializer
-import org.axonframework.spring.config.AxonConfiguration
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
@@ -23,12 +20,6 @@ import java.util.concurrent.Executors
 
 @Configuration
 class AxonConfig {
-
-    @Autowired
-    private lateinit var axonConfiguration: AxonConfiguration
-
-    @Autowired
-    private lateinit var eventBus: EventBus
 
     @Bean
     @ConditionalOnProperty("axon.use-async-command-bus", matchIfMissing = true)
