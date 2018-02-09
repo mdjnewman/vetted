@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = ext['kotlin.version']
-        springBootVersion = '2.0.0.M5'
+        springBootVersion = '2.0.0.RC1'
 //        springBootVersion = '2.0.0.BUILD-SNAPSHOT'
         axonVersion = '3.0.7'
     }
@@ -13,8 +13,9 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
         classpath "gradle.plugin.org.jmailen.gradle:kotlinter-gradle:1.7.0"
     }
 }

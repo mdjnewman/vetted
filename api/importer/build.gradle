@@ -5,6 +5,7 @@ dependencies {
 //    compile(project(":vetted-web-client"))
     compile(project(":vetted-core"))
     compile(project(":vetted-core-infrastructure"))
+    compile(project(":vetted-query"))
     compile("com.healthmarketscience.jackcess:jackcess:2.1.9")
     compile("org.springframework.boot:spring-boot-starter")
 }

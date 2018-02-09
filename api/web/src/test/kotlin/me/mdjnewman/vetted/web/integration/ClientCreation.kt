@@ -6,6 +6,7 @@ import me.mdjnewman.vetted.web.VettedWebApplication
 import me.mdjnewman.vetted.web.model.AddressDTO
 import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
 import org.hamcrest.CoreMatchers
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -29,6 +30,7 @@ class ClientCreation {
     private lateinit var mockMvc: MockMvc
 
     @Test
+    @Ignore // until Spring 5.0.4 - https://jira.spring.io/browse/SPR-16430
     fun shouldRejectDuplicateCreation() {
         val createClientCommand = CreateClientCommandDTO(
             name = "Fred Smith",

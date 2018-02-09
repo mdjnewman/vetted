@@ -7,7 +7,7 @@ import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
 import me.mdjnewman.vetted.api.command.AddPhoneNumberToClientCommand
 import me.mdjnewman.vetted.api.command.CreateClientCommand
 import me.mdjnewman.vetted.api.command.MigrateClientCommand
-import me.mdjnewman.vetted.api.event.ClientCreatedEvent
+import me.mdjnewman.vetted.api.event.NewClientCreatedEvent
 import me.mdjnewman.vetted.api.event.ClientMigratedEvent
 import me.mdjnewman.vetted.api.event.ClientNoteAddedEvent
 import me.mdjnewman.vetted.api.event.ClientPhoneNumberAddedEvent
@@ -37,7 +37,7 @@ class Client {
 
     @CommandHandler
     constructor(command: CreateClientCommand) {
-        apply(ClientCreatedEvent(
+        apply(NewClientCreatedEvent(
             clientId = command.clientId,
             name = command.name,
             address = command.address,
@@ -76,7 +76,7 @@ class Client {
     }
 
     @EventSourcingHandler
-    fun on(event: ClientCreatedEvent) {
+    fun on(event: NewClientCreatedEvent) {
         this.id = event.clientId
         this.name = event.name
         this.address = event.address

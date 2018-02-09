@@ -2,7 +2,7 @@ package me.mdjnewman.vetted.core.domain
 
 import me.mdjnewman.vetted.api.Address
 import me.mdjnewman.vetted.api.command.CreateClientCommand
-import me.mdjnewman.vetted.api.event.ClientCreatedEvent
+import me.mdjnewman.vetted.api.event.NewClientCreatedEvent
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.junit.Before
@@ -41,6 +41,6 @@ class ClientTests {
             .givenNoPriorActivity()
             .`when`(command)
             .expectSuccessfulHandlerExecution()
-            .expectEvents(ClientCreatedEvent(clientId, command.name, command.address, dateCreated))
+            .expectEvents(NewClientCreatedEvent(clientId, command.name, command.address, dateCreated))
     }
 }

@@ -1,3 +1,8 @@
+apply plugin: "kotlin-spring"
+apply plugin: "kotlin-jpa"
+
 dependencies{
+    compile(project(":vetted-api"))
+    compile("org.axonframework:axon-core:$axonVersion")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
 }
