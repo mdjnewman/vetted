@@ -1,43 +1,24 @@
 package me.mdjnewman.vetted.query.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
 import me.mdjnewman.vetted.api.event.ClientCreatedEvent
 import me.mdjnewman.vetted.api.event.ClientMigratedEvent
 import me.mdjnewman.vetted.api.event.ClientNoteAddedEvent
-import org.apache.http.HttpHost
 import org.axonframework.eventhandling.EventHandler
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.action.update.UpdateRequest
-import org.elasticsearch.client.RestClient
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.common.xcontent.XContentType
 import org.elasticsearch.script.Script
 import org.elasticsearch.script.Script.DEFAULT_SCRIPT_LANG
 import org.elasticsearch.script.Script.DEFAULT_SCRIPT_TYPE
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
-class ClientEventListener {
-    private final val logger = LoggerFactory.getLogger(this.javaClass)!!
-    private final val client: RestHighLevelClient
-    private final val objectMapper: ObjectMapper
-
-    init {
-        logger.info("${this::class.simpleName} instantiated")
-
-        // TODO
-        client = RestHighLevelClient(
-            RestClient.builder(
-                HttpHost("localhost", 9200, "http")))
-
-        // TODO
-        objectMapper = ObjectMapper()
-        objectMapper.findAndRegisterModules()
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-    }
-
+class ClientEventListener(
+    private val client: RestHighLevelClient,
+    private val objectMapper: ObjectMapper
+) {
     @EventHandler
     fun on(clientCreatedEvent: ClientCreatedEvent) {
 
