@@ -3,6 +3,8 @@ apply plugin: "kotlin-jpa"
 
 dependencies{
     compile(project(":vetted-api"))
+    compile("com.fasterxml.jackson.core:jackson-databind")
     compile("org.axonframework:axon-core:$axonVersion")
+    compile("org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.2")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
 }

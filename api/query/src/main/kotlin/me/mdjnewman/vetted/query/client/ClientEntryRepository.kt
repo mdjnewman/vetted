@@ -1,16 +1,15 @@
 package me.mdjnewman.vetted.query.client
 
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
+import me.mdjnewman.vetted.api.Address
+import me.mdjnewman.vetted.api.ClientNote
+import java.time.ZonedDateTime
 import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.Id
 
-@Repository
-interface ClientEntryRepository : JpaRepository<ClientEntry, UUID>
-
-@Entity
-class ClientEntry(
-    @Id
-    val id: UUID
+class ClientDocument(
+    val id: UUID,
+    val name: String,
+    val address: Address,
+    val dateCreated: ZonedDateTime,
+    val notes: Set<ClientNote>,
+    val priorId: String?
 )
