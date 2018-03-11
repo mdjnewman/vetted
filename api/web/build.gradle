@@ -6,6 +6,7 @@ dependencies {
     compile(project(":vetted-core"))
     compile(project(":vetted-core-infrastructure"))
     compile(project(":vetted-api"))
+    compile(project(":vetted-query"))
     compile(project(":krafty-utils"))
     compile("javax.inject:javax.inject:1")
 //    compile("org.axonframework:axon-distributed-commandbus-springcloud:$axonVersion")
