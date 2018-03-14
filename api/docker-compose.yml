@@ -12,7 +12,7 @@ services:
     ports:
       - "5601:5601"
     environment:
-      - "ELASTICSEARCH_URL=http://192.168.0.20:9200" # TODO
+      - "ELASTICSEARCH_URL=http://docker.for.mac.host.internal:9200" # TODO
     depends_on:
       - es
   postgres:
