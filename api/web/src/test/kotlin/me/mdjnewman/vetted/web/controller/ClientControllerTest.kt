@@ -7,6 +7,7 @@ import me.mdjnewman.vetted.web.model.AddressDTO
 import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
 import me.mdjnewman.vetted.web.model.ErrorCode
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.elasticsearch.client.RestHighLevelClient
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
@@ -33,6 +34,12 @@ class ClientControllerTest {
 
     @MockBean
     private lateinit var commandGateway: CommandGateway
+
+    /**
+     * TODO - shouldn't be required
+     */
+    @MockBean
+    private lateinit var esClient: RestHighLevelClient
 
     @Test
     fun shouldSucceed() {

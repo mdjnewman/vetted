@@ -1,15 +1,22 @@
 package me.mdjnewman.vetted.web.controller
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import me.mdjnewman.vetted.api.Address
 import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
 import me.mdjnewman.vetted.api.command.CreateClientCommand
+import me.mdjnewman.vetted.query.client.ClientDocument
 import me.mdjnewman.vetted.web.model.AddClientNoteCommandDTO
 import me.mdjnewman.vetted.web.model.ClientResource
 import me.mdjnewman.vetted.web.model.ClientResource.Companion.PATH
 import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.elasticsearch.client.Requests
+import org.elasticsearch.client.RestHighLevelClient
+import org.elasticsearch.index.query.QueryBuilders.matchAllQuery
+import org.elasticsearch.search.builder.SearchSourceBuilder.searchSource
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.bind.annotation.RestController
 import java.util.concurrent.CompletableFuture
@@ -18,7 +25,9 @@ import javax.validation.Valid
 @RestController
 @RequestMapping(PATH)
 class ClientController(
-    private val commandGateway: CommandGateway
+    private val commandGateway: CommandGateway,
+    private val esClient: RestHighLevelClient,
+    private val objectMapper: ObjectMapper
 ) : ClientResource {
     @RequestMapping(
         path = arrayOf("/_create"),
@@ -53,5 +62,29 @@ class ClientController(
                 noteText = dto.noteText
             )
         )
+    }
+
+    /**
+     * TODO - refactor the below, async, paging, etc
+     */
+    @RequestMapping(
+        path = arrayOf("/"),
+        method = arrayOf(RequestMethod.GET)
+    )
+    fun clients(): CompletableFuture<List<ClientDocument>> {
+        val values = esClient
+            .search(
+                Requests
+                    .searchRequest("clients")
+                    .types("doc")
+                    .source(
+                        searchSource()
+                            .query(matchAllQuery())
+                            .size(10000)
+                    )
+            )
+            .hits.map { objectMapper.convertValue(it.source, ClientDocument::class.java)!! }
+
+        return CompletableFuture.completedFuture(values)
     }
 }
