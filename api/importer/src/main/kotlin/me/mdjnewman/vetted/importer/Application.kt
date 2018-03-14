@@ -1,13 +1,11 @@
 package me.mdjnewman.vetted.importer
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class Application
 
 fun main(args: Array<String>) {
-    SpringApplication
-        .run(Application::class.java, *args)
-        .close()
+    runApplication<Application>(*args).close()
 }
