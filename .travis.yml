@@ -19,13 +19,11 @@ before_install:
 install:
   - pushd frontend
   - yarn install
-  - yarn elm-install
   - popd
 
 script:
   - pushd frontend/
-  - ../sysconfcpus/bin/sysconfcpus -n 2 yarn elm-make src/**/*.elm # TODO - shouldn't be required
-  - ../sysconfcpus/bin/sysconfcpus -n 2 yarn run build
+  - yarn run build
   - popd
 
   - pushd api/

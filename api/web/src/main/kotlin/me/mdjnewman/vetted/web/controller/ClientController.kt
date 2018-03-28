@@ -13,11 +13,13 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 import org.elasticsearch.client.Requests
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.index.query.QueryBuilders.matchAllQuery
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
 import org.elasticsearch.search.builder.SearchSourceBuilder.searchSource
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMethod.POST
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.concurrent.CompletableFuture
 import javax.validation.Valid
@@ -71,7 +73,14 @@ class ClientController(
         path = arrayOf("/"),
         method = arrayOf(RequestMethod.GET)
     )
-    fun clients(): CompletableFuture<List<ClientDocument>> {
+    fun clients(
+        @RequestParam("searchTerm", required = false) searchTerm: String?
+    ): CompletableFuture<List<ClientDocument>> {
+
+        val queryBuilder = if (searchTerm != null && searchTerm.isNotEmpty())
+            queryStringQuery(searchTerm)
+        else matchAllQuery()
+
         val values = esClient
             .search(
                 Requests
@@ -79,7 +88,7 @@ class ClientController(
                     .types("doc")
                     .source(
                         searchSource()
-                            .query(matchAllQuery())
+                            .query(queryBuilder)
                             .size(10000)
                     )
             )
