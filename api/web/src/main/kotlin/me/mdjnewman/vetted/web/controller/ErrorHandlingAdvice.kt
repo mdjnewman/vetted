@@ -4,6 +4,7 @@ import me.mdjnewman.krafty.model.ApiValidationErrorDetails
 import me.mdjnewman.krafty.model.ApiValidationResponse
 import me.mdjnewman.krafty.model.ResourceNotFoundDetails
 import me.mdjnewman.krafty.model.ResourceNotFoundResponse
+import me.mdjnewman.krafty.model.UnknownErrorResponse
 import me.mdjnewman.vetted.web.model.ErrorCode
 import me.mdjnewman.vetted.web.model.ErrorCode.RESOURCE_NOT_FOUND
 import me.mdjnewman.vetted.web.model.ErrorCode.VALIDATION_ERROR
@@ -19,6 +20,13 @@ import javax.validation.ConstraintViolationException
 
 @ControllerAdvice
 class ErrorHandlingAdvice {
+    @ExceptionHandler(Exception::class)
+    fun handleException(exception: Exception): ResponseEntity<*> {
+        return status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+            UnknownErrorResponse(errorCode = ErrorCode.UNKNOWN_ERROR)
+        )
+    }
+
     @ExceptionHandler(ConcurrencyException::class)
     fun handleException(exception: ConcurrencyException): ResponseEntity<*> {
         return status(HttpStatus.INTERNAL_SERVER_ERROR).body("nope")

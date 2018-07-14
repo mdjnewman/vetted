@@ -7,6 +7,7 @@ import me.mdjnewman.vetted.web.model.AddressDTO
 import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
 import me.mdjnewman.vetted.web.model.ErrorCode
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.queryhandling.QueryGateway
 import org.elasticsearch.client.RestHighLevelClient
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,6 +35,9 @@ class ClientControllerTest {
 
     @MockBean
     private lateinit var commandGateway: CommandGateway
+
+    @MockBean
+    private lateinit var queryGateway: QueryGateway
 
     /**
      * TODO - shouldn't be required
