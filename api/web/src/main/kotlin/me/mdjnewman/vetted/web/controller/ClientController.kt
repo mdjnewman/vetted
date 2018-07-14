@@ -1,14 +1,12 @@
 package me.mdjnewman.vetted.web.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.mdjnewman.vetted.api.Address
-import me.mdjnewman.vetted.api.command.AddNoteToClientCommand
-import me.mdjnewman.vetted.api.command.CreateClientCommand
 import me.mdjnewman.vetted.query.client.ClientDocument
 import me.mdjnewman.vetted.web.model.AddClientNoteCommandDTO
 import me.mdjnewman.vetted.web.model.ClientResource
 import me.mdjnewman.vetted.web.model.ClientResource.Companion.PATH
 import me.mdjnewman.vetted.web.model.CreateClientCommandDTO
+import me.mdjnewman.vetted.web.model.GetClientsResult
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.elasticsearch.client.Requests
 import org.elasticsearch.client.RestHighLevelClient
@@ -37,19 +35,7 @@ class ClientController(
     )
     override fun create(@Valid @RequestBody dto: CreateClientCommandDTO): CompletableFuture<Void> {
         return commandGateway.send<Void>(
-            CreateClientCommand(
-                clientId = dto.clientId,
-                address = dto.address.let {
-                    Address(
-                        addressLineOne = it.addressLineOne,
-                        addressLineTwo = it.addressLineTwo,
-                        town = it.town,
-                        state = it.state,
-                        postcode = it.postcode
-                    )
-                },
-                name = dto.name
-            )
+            dto.toCreateClientCommand()
         )
     }
 
@@ -59,10 +45,7 @@ class ClientController(
     )
     override fun addNote(@Valid @RequestBody dto: AddClientNoteCommandDTO): CompletableFuture<Void> {
         return commandGateway.send<Void>(
-            AddNoteToClientCommand(
-                clientId = dto.clientId,
-                noteText = dto.noteText
-            )
+            dto.toAddNoteToClientCommand()
         )
     }
 
@@ -73,9 +56,9 @@ class ClientController(
         path = arrayOf("/"),
         method = arrayOf(RequestMethod.GET)
     )
-    fun clients(
+    override fun clients(
         @RequestParam("searchTerm", required = false) searchTerm: String?
-    ): CompletableFuture<List<ClientDocument>> {
+    ): CompletableFuture<GetClientsResult> {
 
         val queryBuilder = if (searchTerm != null && searchTerm.isNotEmpty())
             queryStringQuery(searchTerm)
@@ -94,6 +77,9 @@ class ClientController(
             )
             .hits.map { objectMapper.convertValue(it.source, ClientDocument::class.java)!! }
 
-        return CompletableFuture.completedFuture(values)
+        return CompletableFuture.completedFuture(
+            GetClientsResult(
+                data = values.map { it.toClientDTO() })
+        )
     }
 }

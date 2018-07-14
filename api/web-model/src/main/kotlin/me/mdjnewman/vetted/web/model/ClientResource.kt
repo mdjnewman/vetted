@@ -10,4 +10,5 @@ interface ClientResource {
 
     fun create(dto: CreateClientCommandDTO): CompletableFuture<Void>
     fun addNote(dto: AddClientNoteCommandDTO): CompletableFuture<Void>
+    fun clients(searchTerm: String?): CompletableFuture<GetClientsResult>
 }

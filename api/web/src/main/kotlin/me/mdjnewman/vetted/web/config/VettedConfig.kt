@@ -12,4 +12,4 @@ import org.springframework.context.annotation.Import
     VettedCoreInfrastructureConfig::class,
     VettedQueryConfig::class
 ])
-class ImportedConfig
+class VettedConfig
